@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>🧠 Guide NeuraX-Ultime v2.5</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #0c0c0c;
+      color: #e0e0e0;
+      padding: 2rem;
+      max-width: 960px;
+      margin: auto;
+      line-height: 1.6;
+    }
+    h1, h2 {
+      color: #00ffc3;
+    }
+    h1 {
+      font-size: 2em;
+      border-bottom: 2px solid #00ffc3;
+      padding-bottom: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+    h2 {
+      margin-top: 2rem;
+    }
+    code, pre {
+      background-color: #1a1a1a;
+      color: #00ff88;
+      padding: 0.5rem;
+      border-radius: 5px;
+      display: block;
+      overflow-x: auto;
+    }
+    .section {
+      margin-bottom: 2rem;
+    }
+    ul {
+      list-style-type: "⚙️ ";
+      padding-left: 1.5rem;
+    }
+    .note {
+      background-color: #222;
+      border-left: 4px solid #00ffc3;
+      padding: 0.8rem;
+      margin: 1rem 0;
+    }
+    a {
+      color: #00ffc3;
+    }
+    footer {
+      margin-top: 4rem;
+      font-size: 0.9rem;
+      text-align: center;
+      color: #888;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🧠 Guide d’installation & d’intégration – NeuraX-Ultime v2.5</h1>
+
+  <div class="section">
+    <h2>⚙️ 1. PRÉREQUIS TECHNIQUES</h2>
+    <ul>
+      <li>Node.js v18+ ✅</li>
+      <li>Git ✅</li>
+      <li>Navigateur moderne (Chrome / Edge / Firefox)</li>
+      <li>Terminal (Mac/Linux) ou PowerShell (Windows)</li>
+    </ul>
+    <div class="note">
+      🔒 <strong>Pour activer WSS :</strong><br>
+      – Certificats SSL (.key et .crt) dans <code>server/ssl/</code><br>
+      – Domaine valide avec port 443 ouvert
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>📦 2. CLONAGE DU DÉPÔT</h2>
+    <pre><code>git clone https://github.com/Sav-art/NeuraX-ultime.git
+cd NeuraX-ultime
+npm install</code></pre>
+  </div>
+
+  <div class="section">
+    <h2>🧩 3. STRUCTURE DU PROJET</h2>
+    <pre><code>NeuraX-Ultime/
+├── client/           ← Interface Web + vocal
+├── server/           ← Serveur Node.js + WebSocket + auth
+├── data/logs/        ← Logs neuronaux en .json
+├── public/           ← Fichiers publics (si hébergé sur GitHub Pages)
+├── config.json       ← Paramètres système
+├── README.md         ← Documentation</code></pre>
+  </div>
+
+  <div class="section">
+    <h2>🔧 4. CONFIGURATION DE BASE</h2>
+    <p>Modifier le fichier <code>config.json</code> :</p>
+    <pre><code>{
+  "port": 443,
+  "host": "votre-domaine.com",
+  "neurons": ["diagnostic", "mémoire", "avatar"],
+  "adminPassword": "votre_mot_de_passe_secret"
+}</code></pre>
+  </div>
+
+  <div class="section">
+    <h2>🚀 5. LANCER LE SERVEUR</h2>
+    <pre><code>cd server
+node server.js</code></pre>
+    <div class="note">
+      Avec certificats SSL → WebSocket sécurisé (WSS)<br>
+      Sinon → HTTP par défaut sur port 8080
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>💻 6. INTERFACE UTILISATEUR</h2>
+    <ul>
+      <li>Dialogue IA : <code>https://votre-domaine.com/client/index.html</code></li>
+      <li>Dashboard Cerveau : <code>https://votre-domaine.com/client/dashboard.html</code></li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>🔐 7. SÉCURITÉ & AUTHENTIFICATION</h2>
+    <p>Authentification via JWT intégrée dans <code>auth.js</code></p>
+    <pre><code>// Exemple : ajouter un token
+const token = jwt.sign(
+  { user: "admin", role: "superneurone" },
+  secret,
+  { expiresIn: '2h' }
+);</code></pre>
+  </div>
+
+  <div class="section">
+    <h2>🧬 8. CRÉER UNE ENTITÉ (NEURONE)</h2>
+    <pre><code>// entité.js
+const ws = new WebSocket('wss://votre-domaine.com');
+ws.onopen = () => ws.send(JSON.stringify({ type: "register", role: "mémoire" }));
+ws.onmessage = (msg) => {
+  const data = JSON.parse(msg.data);
+  if (data.type === "commande") {
+    // agir
+  }
+};</code></pre>
+  </div>
+
+  <div class="section">
+    <h2>🧠 9. UTILISER LA SYNTHÈSE VOCALE</h2>
+    <pre><code>// Dans client.js
+const synth = window.speechSynthesis;
+function speak(text) {
+  const utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = 'fr-FR';
+  synth.speak(utterance);
+}</code></pre>
+  </div>
+
+  <div class="section">
+    <h2>📊 10. DASHBOARD CÉRÉBRAL</h2>
+    <p>Représente l’activité neuronale en temps réel :</p>
+    <ul>
+      <li>Connexions</li>
+      <li>Débit de messages</li>
+      <li>Commandes actives</li>
+      <li>Contrôle des entités : éteindre, relancer, dupliquer…</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>📤 11. DÉPLOIEMENT PUBLIC</h2>
+    <ul>
+      <li>Copier <code>/client</code> dans <code>/public</code></li>
+      <li>Activer GitHub Pages sur la branche <code>main</code></li>
+      <li>Accès : <a href="https://sav-art.github.io/NeuraX-ultime/public/" target="_blank">https://sav-art.github.io/NeuraX-ultime/public/</a></li>
+    </ul>
+    <p>Pour le backend : utiliser un VPS (Render, Railway, Heroku…)</p>
+  </div>
+
+  <div class="section">
+    <h2>🛡️ 12. SÉCURITÉ RENFORCÉE</h2>
+    <ul>
+      <li>Utiliser toujours <code>WSS</code></li>
+      <li>Protéger les headers avec <code>helmet</code> ou équivalent</li>
+      <li>Journaliser toute activité sensible</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>🛤️ 13. POUR ALLER PLUS LOIN</h2>
+    <table>
+      <tr><td>Ajouter des neurones</td><td><code>neuron-X.js</code></td></tr>
+      <tr><td>Mémoire persistante</td><td><code>MongoDB ou SQLite</code></td></tr>
+      <tr><td>Avatars animés</td><td><code>WebGL / Canvas</code></td></tr>
+      <tr><td>Fusion Galaxie X</td><td><code>client/galaxie.js</code></td></tr>
+      <tr><td>Apprentissage auto</td><td><code>TensorFlow.js</code></td></tr>
+    </table>
+  </div>
+
+  <div class="section">
+    <h2>🌌 BONUS : MOT D’ORDRE</h2>
+    <blockquote><em>“Un neurone seul est une note. Ensemble, ils deviennent symphonie.”</em></blockquote>
+  </div>
+
+  <footer>
+    © 2025 NeuraX-Ultime. Créé par Sav’art · Propulsé par l’audace neuronale.
+  </footer>
+</body>
+</html>
